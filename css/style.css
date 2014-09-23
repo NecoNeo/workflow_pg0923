@@ -1,0 +1,49 @@
+@import url("reset.css");
+
+.paper{
+	position: absolute;
+	z-index: 1;
+	top:0;
+	left: 0;
+}
+
+.toolBox{
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	width:150px;
+	border: 1px solid #ccc;
+}
+
+.toolBox>div{
+	padding:5px;
+	cursor: pointer;
+}
+
+.toolBox>div.active{
+	background-color: #ccc;
+}
+
+.toolBox>div span{
+	padding:5px;
+	vertical-align: middle;
+}
+
+.toolBox>div img{
+	width:20px;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.propertyBox{
+	position: absolute;
+	z-index: 2;
+	float: right;
+	top: 0;
+	right: 0;
+	min-width: 250px;
+	max-width: 350px;
+	min-height: 150px;
+	border: solid 1px #00F;
+}
