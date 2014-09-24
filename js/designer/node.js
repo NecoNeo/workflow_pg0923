@@ -1,6 +1,6 @@
-define(["jquery", "raphael", "config", "line"],
-	function($, Raphael, Config, Line) {
-		return function(paper, nodeType, opt) {
+define(["config", "line"],
+	function(Config, Line) {
+		return function(paper, propertyBox, nodeType, opt) {
 			var options = $.extend(true, {}, Config.node[nodeType], opt),
 				node = this,
 				rect, text, border, resizePoint = {},
@@ -27,9 +27,10 @@ define(["jquery", "raphael", "config", "line"],
 					});
 
 					drawBorder();
-					drawDefaultLine();
+					//drawDefaultLine();
 					node.focus();
 				},
+
 				//画边框
 				drawBorder = function() {
 					border = paper.path(getBorderPath(options.attr.x, options.attr.y, options.attr.width, options.attr.height, Config.border.margin)).attr(Config.border.attr);
@@ -152,6 +153,16 @@ define(["jquery", "raphael", "config", "line"],
 					});
 				};
 
+			
+
+			this.getX = function() {
+				return (options.attr.x + options.attr.width / 2);
+			};
+
+			this.getY = function() {
+				return (options.attr.y + options.attr.height / 2);
+			};
+
 			this.focus = function() {
 				$($(paper).data("nodes")).map(function() {
 					this.blur();
@@ -162,6 +173,8 @@ define(["jquery", "raphael", "config", "line"],
 				}
 
 				$(paper).data("currentObject", node);
+
+				propertyBox.click();
 			};
 
 			this.blur = function() {
@@ -170,6 +183,8 @@ define(["jquery", "raphael", "config", "line"],
 					resizePoint[r].hide();
 				}
 				$(paper).data("currentObject", null);
+
+				propertyBox.click();
 			};
 
 			this.remove = function() {
@@ -277,7 +292,6 @@ define(["jquery", "raphael", "config", "line"],
 			}
 
 			init();
-			return this;
 		};
 	}
 );

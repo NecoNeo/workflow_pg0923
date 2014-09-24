@@ -19,7 +19,7 @@ requirejs.config({
     }
 });
 
-requirejs(['jquery', 'paper', 'css!../../css/style.css'], function($, Paper) {
+requirejs(['paper', 'raphael', 'jquery', 'css!../../css/style.css'], function(Paper) {
     $(function() {
         var p = new Paper();
     });

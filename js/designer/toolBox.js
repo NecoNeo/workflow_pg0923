@@ -1,5 +1,5 @@
-define(["jquery", "config"],
-	function($, Config) {
+define(["config"],
+	function(Config) {
 		return function(opt) {
 			var options = $.extend(true, {}, Config.toolBox, opt),
 				that = this,
@@ -40,7 +40,6 @@ define(["jquery", "config"],
 
 
 			init();
-			return this;
 		};
 	}
 );

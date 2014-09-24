@@ -1,10 +1,10 @@
-define(["jquery", "raphael", "config", "toolBox", "node", "propertyBox"],
-	function($, Raphael, Config, ToolBox, Node, PropertyBox) {
+define(["config", "toolBox", "node", "line", "propertyBox"],
+	function(Config, ToolBox, Node, Line, PropertyBox) {
 		return function(opt) {
 			var options = $.extend(true, {}, Config.paper, opt),
 				that = this,
 				$obj = $("#" + options.objId),
-				paper = new Raphael(options.objId, options.width, options.height),
+				paper = Raphael(options.objId, options.width, options.height),
 				toolBox = new ToolBox(),
 				propertyBox = new PropertyBox(paper),
 				init = function() {
@@ -33,14 +33,24 @@ define(["jquery", "raphael", "config", "toolBox", "node", "propertyBox"],
 				}
 				clickPaper = function(x,y){
 					if(toolBox.state){
-						var attr = {
-							"x": x,
-							"y": y
-						};
-						var node = new Node(paper,toolBox.state.nodeType,{"attr":attr});
-						$(paper).data("nodes").push(node);
-						toolBox.changeState("");
-					}else{
+						if (toolBox.state.type == "node") {
+							var attr = {
+								"x": x,
+								"y": y
+							};
+							var node = new Node(paper, propertyBox, toolBox.state.nodeType, {"attr":attr});
+							$(paper).data("nodes").push(node);
+							toolBox.changeState("");
+						} else if (toolBox.state.type == "next" && $(paper).data("currentObject")) {
+							var attr = {
+								"x": x,
+								"y": y
+							};
+							var line = new Line(paper, propertyBox, toolBox.state.lineType, {"attr":attr}, $(paper).data("currentObject"));
+							$(paper).data("nodes").push(line);
+							toolBox.changeState("");
+						}
+					} else {
 						$($(paper).data("nodes")).map(function(){
 							this.blur();
 						});
@@ -48,7 +58,6 @@ define(["jquery", "raphael", "config", "toolBox", "node", "propertyBox"],
 				};
 
 			init();
-			return this;
 		};
 	}
 );
